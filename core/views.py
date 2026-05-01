@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from features.grayscale.process import convert_to_grayscale
 from features.face_tools.process import blur_faces
+from features.face_detect.process import detect_faces
 from features.maze_solver.process import solve_maze
 from features.seam_carving.process import carve_seams
 from features.stitching.process import stitch_images
@@ -12,6 +13,7 @@ from utils.file_handling import save_uploaded_file
 FEATURES_INFO = {
     'grayscale': {'title': 'Grayscale Magic', 'icon': '🎨', 'description': 'Turn colorful memories into timeless monochrome.', 'action': 'Upload an image to convert to grayscale.', 'multi': False},
     'face_blur': {'title': 'Privacy Mode', 'icon': '🎭', 'description': 'Softly blur faces to keep things mysterious.', 'action': 'Upload an image to blur faces.', 'multi': False},
+    'face_detect': {'title': 'Face Detection', 'icon': '🎯', 'description': 'Identify and highlight faces in your images.', 'action': 'Upload an image to detect faces.', 'multi': False},
     'stitch': {'title': 'Panorama Dream', 'icon': '🌌', 'description': 'Stitch multiple photos into a seamless landscape.', 'action': 'Upload 2 or more images to stitch them together.', 'multi': True},
     'maze': {'title': 'Maze Solver', 'icon': '🧭', 'description': 'Find the way out with a glowing magic path.', 'action': 'Upload a maze image to solve it.', 'multi': False},
     'seam': {'title': 'Content Aware Resize', 'icon': '✂️', 'description': 'Shrink images without losing the important parts.', 'action': 'Upload an image to reduce its width intelligently.', 'multi': False},
@@ -58,6 +60,8 @@ def feature_view(request, feature_id):
                     context['result_url'] = convert_to_grayscale(path)
                 elif feature_id == 'face_blur':
                     context['result_url'] = blur_faces(path)
+                elif feature_id == 'face_detect':
+                    context['result_url'] = detect_faces(path)
                 elif feature_id == 'maze':
                     context['result_url'] = solve_maze(path)
                 elif feature_id == 'seam':

@@ -69,24 +69,33 @@ function setupDragAndDrop(dropZoneId, fileInputId, previewId) {
 
     function handleFiles(files) {
         if (files.length > 0 && preview) {
-            const file = files[0];
             const uploadIcon = dropZone.querySelector('.upload-icon');
             
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    preview.src = e.target.result;
-                    preview.classList.remove('hidden');
-                    if (uploadIcon) uploadIcon.classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
-            } else if (file.type.startsWith('video/')) {
-                // For videos, just show a generic video icon and filename
-                preview.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffb7b2"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>';
-                preview.classList.remove('hidden');
-                preview.style.width = '64px';
+            if (files.length > 1) {
+                // Handle multiple files
+                preview.classList.add('hidden');
                 if (uploadIcon) {
-                    uploadIcon.innerHTML = `<h3 class="text-xl font-semibold text-gray-600 mb-2 mt-4">${file.name}</h3>`;
+                    uploadIcon.classList.remove('hidden');
+                    uploadIcon.innerHTML = `<div class="text-6xl mb-4">📸</div><h3 class="text-xl font-semibold text-gray-600 mb-2 mt-4">${files.length} Magic Files Selected ✨</h3>`;
+                }
+            } else {
+                // Handle single file
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        preview.src = e.target.result;
+                        preview.classList.remove('hidden');
+                        if (uploadIcon) uploadIcon.classList.add('hidden');
+                    }
+                    reader.readAsDataURL(file);
+                } else if (file.type.startsWith('video/')) {
+                    preview.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffb7b2"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>';
+                    preview.classList.remove('hidden');
+                    preview.style.width = '64px';
+                    if (uploadIcon) {
+                        uploadIcon.innerHTML = `<h3 class="text-xl font-semibold text-gray-600 mb-2 mt-4">${file.name}</h3>`;
+                    }
                 }
             }
         }
