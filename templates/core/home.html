@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mb-12 animate-float">
+    <h1 class="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-pastelPink to-pastelPurple">
+        Welcome to the Magic Lab 🌸
+    </h1>
+    <p class="text-xl text-gray-500 max-w-2xl mx-auto">
+        Where powerful computer vision meets soft, dreamy, floating pastel aesthetics. Choose an experiment to begin!
+    </p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for feature in features %}
+    <a href="{% url 'feature' feature.id %}" class="glass-card p-8 group block no-underline animate-float-delayed" style="animation-delay: {{ forloop.counter0|add:1 }}s;">
+        <div class="text-6xl mb-4 transform transition-transform group-hover:scale-110 group-hover:rotate-6 text-center">
+            {{ feature.icon }}
+        </div>
+        <h2 class="text-2xl font-bold mb-2 text-center text-gray-700 group-hover:text-pastelPink transition-colors">
+            {{ feature.title }}
+        </h2>
+        <p class="text-center text-gray-500">
+            {{ feature.description }}
+        </p>
+        <div class="mt-6 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <span class="btn-cute-outline px-6 py-2 text-sm rounded-full">Explore ✨</span>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<!-- Antigravity Footer Section -->
+<div class="mt-24 pt-16 border-t border-gray-200/50">
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- Project Guides Section -->
+        <div class="mb-16">
+            <h3 class="text-2xl font-bold text-center text-gray-700 mb-8 tracking-wide">Project Guides</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <!-- Guide 1 -->
+                <div class="glass-card relative bg-gradient-to-br from-pastelPink/20 to-pastelPurple/20 p-8 hover:-translate-y-2 hover:scale-105 transition-all duration-300 overflow-hidden group border-2 border-white/60">
+                    <div class="absolute inset-0 bg-gradient-to-r from-pastelPurple/40 to-pastelPink/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span class="absolute top-0 right-0 bg-gradient-to-r from-pastelPink to-pastelPurple text-white text-xs px-4 py-1.5 rounded-bl-xl font-bold tracking-widest shadow-sm">PROJECT GUIDE</span>
+                    <div class="relative z-10 text-center">
+                        <div class="w-20 h-20 mx-auto bg-white/60 rounded-full flex items-center justify-center mb-4 border border-white shadow-soft">
+                            <span class="text-3xl">👨‍🏫</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-700 mb-1">Prof. A. S. Dalvi</h4>
+                        <p class="text-gray-500 text-sm font-medium">Department of Computer Engineering</p>
+                    </div>
+                </div>
+                
+                <!-- Guide 2 -->
+                <div class="glass-card relative bg-gradient-to-br from-pastelPink/20 to-pastelPurple/20 p-8 hover:-translate-y-2 hover:scale-105 transition-all duration-300 overflow-hidden group border-2 border-white/60">
+                    <div class="absolute inset-0 bg-gradient-to-r from-pastelPurple/40 to-pastelPink/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <span class="absolute top-0 right-0 bg-gradient-to-r from-pastelPink to-pastelPurple text-white text-xs px-4 py-1.5 rounded-bl-xl font-bold tracking-widest shadow-sm">PROJECT GUIDE</span>
+                    <div class="relative z-10 text-center">
+                        <div class="w-20 h-20 mx-auto bg-white/60 rounded-full flex items-center justify-center mb-4 border border-white shadow-soft">
+                            <span class="text-3xl">👩‍🏫</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-700 mb-1">Prof. S. S. Kolhe</h4>
+                        <p class="text-gray-500 text-sm font-medium">Department of Computer Engineering</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Team Section -->
+        <div>
+            <h3 class="text-2xl font-bold text-center text-gray-700 mb-8 tracking-wide">Our Team</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Member 1 -->
+                <div class="glass-card p-6 hover:-translate-y-2 transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-white/60 border border-white rounded-full flex items-center justify-center text-xl shadow-sm">
+                            👩‍💻
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-700">Shraddha Patil</h4>
+                            <p class="text-gray-500 text-sm">Developer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Member 2 -->
+                <div class="glass-card p-6 hover:-translate-y-2 transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-white/60 border border-white rounded-full flex items-center justify-center text-xl shadow-sm">
+                            👩‍💻
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-700">Urmila Thete</h4>
+                            <p class="text-gray-500 text-sm">Developer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Member 3 -->
+                <div class="glass-card p-6 hover:-translate-y-2 transition-all duration-300">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 bg-white/60 border border-white rounded-full flex items-center justify-center text-xl shadow-sm">
+                            👩‍💻
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-gray-700">Deepali Wagh</h4>
+                            <p class="text-gray-500 text-sm">Developer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

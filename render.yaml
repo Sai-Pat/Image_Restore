@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: pratima
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn pratima.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
+      - key: WEB_CONCURRENCY
+        value: 4

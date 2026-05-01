@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pratima - AI Magic Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelPink: '#ffb7b2',
+                        pastelPurple: '#c7ceea',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased">
+    <!-- Particle Background -->
+    <div class="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="glass-panel mx-4 mt-4 px-6 py-4 flex justify-between items-center z-50 relative">
+        <a href="/" class="flex items-center gap-2 text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pastelPink to-pastelPurple">
+            ✨ Pratima
+        </a>
+        <div class="flex gap-4">
+            <a href="/" class="text-gray-600 hover:text-pastelPink transition-colors font-medium">Lab Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8 relative z-10">
+        {% block content %}{% endblock %}
+    </main>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

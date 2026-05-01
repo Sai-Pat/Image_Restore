@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto glass-panel p-8 mt-12 animate-float">
+    <a href="/" class="text-pastelPink hover:text-pastelPurple mb-6 inline-block font-semibold transition-colors">
+        ← Back to Lab
+    </a>
+    
+    <div class="text-center mb-8">
+        <div class="text-5xl mb-4">{{ feature.icon }}</div>
+        <h1 class="text-4xl font-bold text-gray-700 mb-2">{{ feature.title }}</h1>
+        <p class="text-gray-500">{{ feature.description }}</p>
+    </div>
+
+    {% if error %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6" role="alert">
+        <span class="block sm:inline">{{ error }}</span>
+    </div>
+    {% endif %}
+
+    {% if feature_id == 'eye_track' and request.GET.webcam %}
+        <!-- Eye Tracking View -->
+        <div class="flex justify-center rounded-2xl overflow-hidden shadow-soft">
+            <img src="{% url 'eye_tracking_stream' %}" class="w-full max-w-2xl rounded-2xl border-4 border-white" alt="Eye Tracking Stream">
+        </div>
+        <div class="text-center mt-6">
+            <p class="text-sm text-gray-400 mb-4">Make sure you allow webcam access!</p>
+            <a href="{% url 'feature' feature_id %}" class="btn-cute-outline">← Back to Upload</a>
+        </div>
+    
+    {% elif result_url %}
+        <!-- Result View -->
+        <div class="text-center">
+            <h3 class="text-2xl font-semibold mb-4 text-gray-600">Magic Applied! ✨</h3>
+            
+            {% if original_url and feature_id != 'stitch' %}
+                <!-- Modern Before / After Slider -->
+                <div class="slider-container" id="slider-container">
+                    <img src="{{ result_url }}" class="slider-image" alt="After">
+                    <div class="slider-before-wrapper" id="before-wrapper">
+                        <img src="{{ original_url }}" class="slider-before-image" alt="Before">
+                    </div>
+                    <div class="slider-divider" id="slider-divider"></div>
+                    <div class="slider-handle" id="slider-handle"></div>
+                    <input type="range" min="0" max="100" value="50" class="slider-input" id="slider">
+                </div>
+            {% else %}
+                <div class="flex justify-center mb-6">
+                    {% if is_video %}
+                        <video src="{{ result_url }}" controls class="max-w-2xl w-full rounded-2xl shadow-soft border-4 border-white" autoplay loop></video>
+                    {% else %}
+                        <img src="{{ result_url }}" class="max-w-2xl w-full rounded-2xl shadow-soft border-4 border-white" alt="Result">
+                    {% endif %}
+                </div>
+            {% endif %}
+            
+            <div class="flex justify-center gap-4">
+                <a href="{{ result_url }}" download class="btn-cute">Download Result 📥</a>
+                <a href="{% url 'feature' feature_id %}" class="btn-cute-outline">Try Another 🔄</a>
+            </div>
+        </div>
+
+    {% else %}
+        <!-- Upload Form -->
+        <form method="POST" enctype="multipart/form-data" class="max-w-xl mx-auto" id="upload-form">
+            {% csrf_token %}
+            
+            <div class="file-upload-zone p-12 text-center relative" id="drop-zone">
+                <input type="file" name="image" id="file-input" class="hidden" 
+                       accept="{% if feature_id == 'eye_track' %}image/*,video/*{% else %}image/*{% endif %}" 
+                       {% if feature.multi %}multiple{% endif %} required>
+                
+                <img id="preview" class="hidden mx-auto max-h-64 rounded-xl shadow-sm mb-4 object-contain">
+                
+                <div class="upload-icon">
+                    <span class="text-6xl mb-4 block">📁</span>
+                    <h3 class="text-xl font-semibold text-gray-600 mb-2">Drag & Drop</h3>
+                    <p class="text-sm text-gray-500 mb-4">or click to browse your magical files</p>
+                    <span class="text-xs font-semibold text-pastelPink bg-white px-3 py-1 rounded-full shadow-sm">
+                        {% if feature.multi %}Multiple Images Allowed{% else %}Single Image{% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <button type="submit" class="btn-cute w-full max-w-xs text-lg py-3 flex items-center justify-center gap-2 mb-4 mx-auto" id="submit-btn">
+                    <span>Apply Magic ✨</span>
+                </button>
+                
+                {% if feature_id == 'eye_track' %}
+                <div class="flex items-center justify-center gap-4 my-6">
+                    <div class="h-px bg-gray-300 flex-1"></div>
+                    <span class="text-gray-400 text-sm font-medium uppercase tracking-wider">OR</span>
+                    <div class="h-px bg-gray-300 flex-1"></div>
+                </div>
+                <a href="?webcam=1" class="btn-cute-outline block w-full max-w-xs mx-auto py-3">
+                    🎥 Use Live Webcam
+                </a>
+                {% endif %}
+            </div>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Setup Drag and Drop
+    setupDragAndDrop('drop-zone', 'file-input', 'preview');
+
+    // Click to upload
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    if (dropZone && fileInput) {
+        dropZone.addEventListener('click', () => fileInput.click());
+    }
+
+    // Modern Before/After Slider Logic
+    const slider = document.getElementById('slider');
+    const beforeWrapper = document.getElementById('before-wrapper');
+    const sliderDivider = document.getElementById('slider-divider');
+    const sliderHandle = document.getElementById('slider-handle');
+
+    if (slider && beforeWrapper && sliderDivider && sliderHandle) {
+        slider.addEventListener('input', (e) => {
+            const val = e.target.value;
+            beforeWrapper.style.width = `${val}%`;
+            sliderDivider.style.left = `${val}%`;
+            sliderHandle.style.left = `${val}%`;
+        });
+    }
+
+    // Loading State
+    const form = document.getElementById('upload-form');
+    const submitBtn = document.getElementById('submit-btn');
+    if (form && submitBtn) {
+        form.addEventListener('submit', () => {
+            submitBtn.innerHTML = '<div class="cute-spinner mx-auto border-t-white w-6 h-6 border-4"></div>';
+            submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+        });
+    }
+</script>
+{% endblock %}
