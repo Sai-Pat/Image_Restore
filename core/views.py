@@ -13,7 +13,7 @@ from utils.file_handling import save_uploaded_file
 FEATURES_INFO = {
     'grayscale': {'title': 'Grayscale Magic', 'icon': '🎨', 'description': 'Turn colorful memories into timeless monochrome.', 'action': 'Upload an image to convert to grayscale.', 'multi': False},
     'face_blur': {'title': 'Privacy Mode', 'icon': '🎭', 'description': 'Softly blur faces to keep things mysterious.', 'action': 'Upload an image to blur faces.', 'multi': False},
-    'face_detect': {'title': 'Face Detection', 'icon': '🎯', 'description': 'Identify and highlight faces in your images.', 'action': 'Upload an image to detect faces.', 'multi': False},
+    'face_detect': {'title': 'Face Detection', 'icon': '🎯', 'description': 'Real-time face detection using your webcam or upload.', 'action': 'Upload an image or use your webcam to detect faces.', 'multi': False},
     'stitch': {'title': 'Panorama Dream', 'icon': '🌌', 'description': 'Stitch multiple photos into a seamless landscape.', 'action': 'Upload 2 or more images to stitch them together.', 'multi': True},
     'maze': {'title': 'Maze Solver', 'icon': '🧭', 'description': 'Find the way out with a glowing magic path.', 'action': 'Upload a maze image to solve it.', 'multi': False},
     'seam': {'title': 'Content Aware Resize', 'icon': '✂️', 'description': 'Shrink images without losing the important parts.', 'action': 'Upload an image to reduce its width intelligently.', 'multi': False},
